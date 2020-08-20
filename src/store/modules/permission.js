@@ -1,4 +1,5 @@
 import { asyncRoutes, constantRoutes } from '@/router'
+import Layout from '@/layout'
 
 /**
  * Use meta.role to determine if the current user has permission
@@ -34,6 +35,39 @@ export function filterAsyncRoutes(routes, roles) {
   return res
 }
 
+/**
+ * Filter asynchronous API routing tables by recursion
+ * @param permissions asyncRoutes
+ */
+export function toRoutes(permissions) {
+  const res = []
+  permissions.forEach(item => {
+    const temp = {
+      name: item.name,
+      component: resolve => require([`@/views/${item.component}`], resolve),
+      path: item.path,
+      meta: {
+        title: item.menu_name,
+        icon: item.icon
+      }
+    }
+    if (item.component === '@/layout') {
+      temp.component = Layout
+    }
+    if (item.menu_status === 0) {
+      temp.hidden = true
+    }
+    if (item.redirect) {
+      temp.redirect = item.redirect
+    }
+    if (item.children && item.children.length > 0) {
+      temp.children = toRoutes(item.children)
+    }
+    res.push(temp)
+  })
+  return res
+}
+
 const state = {
   routes: [],
   addRoutes: []
@@ -47,7 +81,8 @@ const mutations = {
 }
 
 const actions = {
-  generateRoutes({ commit }, roles) {
+  generateRoutes({ commit }, permissions) {
+    /*
     return new Promise(resolve => {
       let accessedRoutes
       if (roles.includes('admin')) {
@@ -55,6 +90,16 @@ const actions = {
       } else {
         accessedRoutes = filterAsyncRoutes(asyncRoutes, roles)
       }
+      commit('SET_ROUTES', accessedRoutes)
+      resolve(accessedRoutes)
+    })
+     */
+
+    return new Promise(resolve => {
+      let accessedRoutes = []
+      accessedRoutes = asyncRoutes.concat(toRoutes(permissions)) // 开发
+      console.log(accessedRoutes)
+      // accessedRoutes = toRoutes(permissions) // 正式
       commit('SET_ROUTES', accessedRoutes)
       resolve(accessedRoutes)
     })
