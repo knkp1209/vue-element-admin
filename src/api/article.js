@@ -1,7 +1,7 @@
-import request from '@/utils/request'
+import { request, requestMock } from '@/utils/request'
 
 export function fetchList(query) {
-  return request({
+  return requestMock({
     url: '/vue-element-admin/article/list',
     method: 'get',
     params: query
@@ -9,7 +9,7 @@ export function fetchList(query) {
 }
 
 export function fetchArticle(id) {
-  return request({
+  return requestMock({
     url: '/vue-element-admin/article/detail',
     method: 'get',
     params: { id }

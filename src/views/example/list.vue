@@ -58,6 +58,9 @@
 
 <script>
 import { fetchList } from '@/api/article'
+// import { fetchList } from '@/utils/fetchList'
+// import { list as listUrl } from '@/api/article-demo'
+
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 
 export default {
@@ -90,11 +93,22 @@ export default {
   methods: {
     getList() {
       this.listLoading = true
+      /*
+      原来的请求方式
+       */
       fetchList(this.listQuery).then(response => {
         this.list = response.data.items
         this.total = response.data.total
         this.listLoading = false
       })
+      /*
+       重新封装
+       import { fetchList } from '@/utils/fetchList'
+
+      fetchList(listUrl, this).then(response => {
+        console.log(response)
+      })
+       */
     }
   }
 }
