@@ -60,6 +60,9 @@ export function toRoutes(permissions) {
     if (item.redirect) {
       temp.redirect = item.redirect
     }
+    if (item.props) {
+      temp.props = Boolean(item.props)
+    }
     if (item.children && item.children.length > 0) {
       temp.children = toRoutes(item.children)
     }
@@ -96,8 +99,7 @@ const actions = {
      */
 
     return new Promise(resolve => {
-      let accessedRoutes = []
-      accessedRoutes = asyncRoutes.concat(toRoutes(permissions)) // 开发
+      const accessedRoutes = asyncRoutes.concat(toRoutes(permissions)) // 开发
       console.log(accessedRoutes)
       // accessedRoutes = toRoutes(permissions) // 正式
       commit('SET_ROUTES', accessedRoutes)
