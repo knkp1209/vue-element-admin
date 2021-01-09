@@ -8,6 +8,9 @@ import Element from 'element-ui'
 import './styles/element-variables.scss'
 // import enLang from 'element-ui/lib/locale/lang/en'// 如果使用中文语言包请默认支持，无需额外引入，请删除该依赖
 
+import VeeValidate, { Validator } from 'vee-validate'
+import zh_CN from 'vee-validate/dist/locale/zh_CN'
+
 import '@/styles/index.scss' // global css
 
 import App from './App'
@@ -36,6 +39,13 @@ if (process.env.NODE_ENV === 'production') {
 Vue.use(Element, {
   size: Cookies.get('size') || 'medium' // set element-ui default size
   // locale: enLang // 如果使用中文，无需设置，请删除
+})
+
+Validator.addLocale(zh_CN)
+Vue.use(VeeValidate, {
+  locale: 'zh_CN',
+  delay: '0',
+  fieldsBagName: 'vee-fields' // 默认为 fields
 })
 
 // register global utility filters
