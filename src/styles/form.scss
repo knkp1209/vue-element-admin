@@ -1,0 +1,26 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+
+  .submit-button {
+    background-color: #d0d0d0;
+    text-align: right;
+    padding: 5px 25px;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 46px;
+  }
+  
+  .form-2-column {
+    margin-bottom: 46px;
+    margin-top: 10px;
+    padding-left: 8%;
+    padding-right: 10%;
+    width: 100%;
+  }
+}
+
+
